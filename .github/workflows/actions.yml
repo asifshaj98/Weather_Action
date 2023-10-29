@@ -12,10 +12,10 @@ jobs:
     steps:
 
       - name: Checkout Repo Content
-        uses: actions/checkout@v2.5.2 # Use the latest available version
+        uses: actions/checkout@v3 # Use the latest available version
 
       - name: Setup Python
-        uses: actions/setup-python@v2 # Use the latest available version
+        uses: actions/setup-python@v3 # Use the latest available version
         with:
           python-version: '3.9'
 
