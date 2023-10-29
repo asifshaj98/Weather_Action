@@ -1,41 +1,41 @@
-name: Run main.py on Git Push
+name: run main.py
+
 on:
   schedule:
-      - cron: '*/2 * * * *' # runs every 2 minutes
+    - cron: '*/2 * * * *' # Every two minutes
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
 
-      - name: Checkout Repo Content
-        uses: actions/checkout@v3 # Use the latest available version
+      - name: checkout repo content
+        uses: actions/checkout@v2 # checkout the repository content to github runner
 
-      - name: Setup Python
-        uses: actions/setup-python@v3 # Use the latest available version
+      - name: setup python
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
-
-      - name: Install Python Packages
+          python-version: '3.9' # install the python version needed
+          
+      - name: install python packages
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Execute main.py
+          
+      - name: execute py script # run main.py
         env:
           SOME_SECRET: ${{ secrets.SOME_SECRET }}
         run: python main.py
-
-      - name: Commit Files
+          
+      - name: commit files
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
-          git diff-index --quiet HEAD || (git commit -a -m "Updated logs" --allow-empty)
-
-      - name: Push Changes
-        uses: ad-m/github-push-action@v0.6.0 # Use the latest available version
+          git diff-index --quiet HEAD || (git commit -a -m "updated logs" --allow-empty)
+          
+      - name: push changes
+        uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
+          branch: main 
